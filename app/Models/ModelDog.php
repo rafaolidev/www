@@ -23,7 +23,7 @@ class ModelDog extends Model
             $dogs = Dog::join('dogs', 'id_user', '=', 'users.id')
                                     ->orderBy('users.id','ASC')
                                     ->orderBy('dogs.id','ASC')
-                                    ->get(['dogs.*','users.id','users.id as ideDeUser']);
+                                    ->get(['dogs.*','users.id','users.id_user as ideTeste']);
             return ($dogs);
     }
 

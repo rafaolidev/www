@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +24,7 @@ class DogController extends Controller
      */
     public function index()
     {
-        $dogs = ModelDog::join('users', 'id_user', '=', 'users.id')
-                                ->orderBy('users.id','ASC')
-                                ->orderBy('dogs.id','ASC')
-                                ->get();
+        $dogs = ModelDog::paginate(10);
         //var_dump($dogs);
         return view('index',['dogs'=>$dogs]);
     }
@@ -76,7 +73,7 @@ class DogController extends Controller
         $dog -> idade=$request->idade;
         $dog -> id_user=$request->id_user;
         $dog -> save();
-        $dogs = dogs_ordenados();
+        $dogs = ModelDog::all()->sortBy('nome');
         return view('index',['dogs'=>$dogs]);
     }
 
@@ -122,6 +119,7 @@ class DogController extends Controller
        ]);
        return redirect('dogs');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -130,7 +128,7 @@ class DogController extends Controller
      */
     public function destroy($id)
     {
-        ModelDog::where(['id'=>$id])->delete();
-        return redirect('dogs');
+        $del=ModelBook::destroy($id);
+        return($del)?"sim":"não";
     }
 }

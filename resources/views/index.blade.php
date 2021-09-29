@@ -53,6 +53,7 @@
 
     </tbody>
   </table>
+  {{ $dogs->links() }}
 </div>
 
 @endsection
